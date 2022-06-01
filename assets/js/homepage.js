@@ -1,5 +1,27 @@
-var getUserRepos = function () {
-    fetch("https://api.github.com/users/octocat/repos")
+var userFormEl = document.querySelector("#user-form");
+var nameInputEl = document.querySelector("#username");
+
+var formSubmitHandler = function (event) {
+    event.preventDefault();
+
+    var username = nameInputEl.value.trim();
+
+    if (username) {
+        getUserRepos(username);
+        nameInputEl.value = "";
+    } else {
+        alert("Please enter a GitHub username")
+    }
 };
 
-getUserRepos();
+var getUserRepos = function (user) {
+    var apiURL = "https://api.github.com/users/" + user + "/repos";
+
+    fetch(apiURL).then(function (response) {
+        response.json().then(function (data) {
+            console.log(data);
+        });
+    });
+};
+
+userFormEl.addEventListener("submit", formSubmitHandler);
