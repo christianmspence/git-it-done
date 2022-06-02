@@ -18,19 +18,22 @@ var getRepoName = function () {
 var getRepoIssues = function (repo) {
     var apiURL = "https://api.github.com/repos/" + repo + "/issues?direction=asc";
 
-    fetch(apiURL).then(function (response) {
-        if (response.ok) {
-            response.json().then(function (data) {
-                displayIssues(data);
 
-                if (response.headers.get("link")) {
-                    displayWarning(repo);
-                }
-            });
-        } else {
-            document.location.replace("./index.html");
-        }
-    });
+
+
+fetch(apiURL).then(function (response) {
+    if (response.ok) {
+        response.json().then(function (data) {
+            displayIssues(data);
+
+            if (response.headers.get("link")) {
+                displayWarning(repo);
+            }
+        });
+    } else {
+        document.location.replace("./index.html");
+    }
+});
 };
 
 var displayIssues = function (issues) {
